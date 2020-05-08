@@ -3,7 +3,7 @@ import requests
 import json
 import time
 
-ROUTING_KEY = "27dcb2c327ed42168d3304f4d48ec76b"  # ENTER EVENTS V2 API INTEGRATION KEY HERE
+ROUTING_KEY = "xxxxxxxxxxxxxxxxxxxxxxx"  # ENTER EVENTS V2 API INTEGRATION KEY HERE
 
 
 def trigger_incident():
