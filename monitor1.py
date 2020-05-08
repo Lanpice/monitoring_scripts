@@ -7,14 +7,14 @@ from prometheus_client.core import CollectorRegistry
 from prometheus_client import Gauge
 
 
-NS1_ID = '95ea397e-cafd-4da8-a384-7ba1bb507e6f'
-# NS2_ID = '9fcacb54-cb66-4751-be4c-b1cf12078415'
+NS_ID = '95ea397e-cafd-4da8-a384-7ba1bb507e6f'     # backend的namespace id
+# NS_ID = '9fcacb54-cb66-4751-be4c-b1cf12078415'   # api的namespace id
 NACOS = 'nacos.aeonbuy.com'
 
 
 def get_services():
     """获取nacos服务列表"""
-    service_url = 'http://%s/nacos/v1/ns/service/list?namespaceId=%s&pageNo=1&pageSize=200' % (NACOS, NS1_ID)
+    service_url = 'http://%s/nacos/v1/ns/service/list?namespaceId=%s&pageNo=1&pageSize=200' % (NACOS, NS_ID)
     r = requests.get(service_url).text
     data = json.loads(r)
     services = data.get('doms')
@@ -28,10 +28,10 @@ def get_services():
 
 def get_instance_status(svc):
     """获取nacos实例信息"""
-    instance_url = 'http://%s/nacos/v1/ns/instance/list?serviceName=%s&namespaceId=%s' % (NACOS, svc, NS1_ID)
+    instance_url = 'http://%s/nacos/v1/ns/instance/list?serviceName=%s&namespaceId=%s' % (NACOS, svc, NS_ID)
     r = requests.get(instance_url).text
     data = json.loads(r)
-    instances = data.get('hosts')  # 获取实例列表
+    instances = data.get('hosts')
     if instances:
         # 多实例处理
         health = {}
@@ -44,6 +44,7 @@ def get_instance_status(svc):
         return {'Null': 0}
 
 
+# 定义registry存储数据
 REGISTRY = CollectorRegistry(auto_describe=False)
 INSTANCE_STATUS = Gauge("nacos_instance_status", "service", ['service_name', 'instance', 'namespace'],
                         registry=REGISTRY)
@@ -65,4 +66,4 @@ def main():
 if __name__ == '__main__':
     while True:
         main()
-        time.sleep(15)
+        time.sleep(15)      # 每15秒推送一次数据
