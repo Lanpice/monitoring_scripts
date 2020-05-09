@@ -9,7 +9,7 @@ from prometheus_client import Gauge
 
 NS_ID = '95ea397e-cafd-4da8-a384-7ba1bb507e6f'     # backend的namespace id
 # NS_ID = '9fcacb54-cb66-4751-be4c-b1cf12078415'   # api的namespace id
-NACOS = 'nacos.aeonbuy.com'
+NACOS = 'nacos.oa.com'
 
 # 定义registry存储数据
 REGISTRY = CollectorRegistry(auto_describe=False)
